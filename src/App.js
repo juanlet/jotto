@@ -20,7 +20,7 @@ export class UnconnectedApp extends Component {
         <Congrats success={this.props.success} />
         <Input />
         <GuessedWords guessedWords={this.props.guessedWords} />
-        <TotalGuesses totalGuesses={this.props.guessedWords} />
+        <TotalGuesses totalGuesses={this.props.guessedWords.length} />
       </div>
     );
   }
