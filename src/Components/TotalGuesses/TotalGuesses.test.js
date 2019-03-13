@@ -9,8 +9,8 @@ const defaultProps = {
     totalGuesses: 3
  };
 
-const setup = () => {
-    let initialState = {totalGuesses: 0};
+const setup = (initialState = null) => {
+    initialState = initialState? initialState: {totalGuesses: 0};
     let wrapper = shallow(<TotalGuesses {...initialState} />);
     return wrapper;
 }
@@ -56,6 +56,10 @@ const setup = () => {
         //check if count has incremented
         let guessCount = findByTestAttr(wrapper,"total-guesses-count");
         expect(guessCount).toBe(1); */
+        const totalGuesses = 3;
+        let wrapper= setup({totalGuesses });
+        let component = findByTestAttr(wrapper,"total-guesses-count");
+        expect(component.text()).toContain(totalGuesses.toString());
     });
 
 
