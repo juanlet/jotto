@@ -4,6 +4,7 @@ import  {Provider} from 'react-redux';
 
 import { findByTestAttr, storeFactory } from '../../test/testUtils';
 import Input from './Input';
+import { UnconnectedInput } from './Input';
 
 //CONNECTED COMPONENT
 //testing redux component
@@ -86,4 +87,41 @@ describe('redux props', () => {
         const guessWordProp = wrapper.instance().props.guessWord;
         expect(guessWordProp).toBeInstanceOf(Function);
     });
+});
+
+
+describe('`guessWord` action creator call', () => {
+   let guessWordMock;
+   let wrapper;
+   let props;
+   const guessedWord = 'train';
+
+   beforeEach(() => {
+    guessWordMock = jest.fn(); 
+    props = {
+        guessWord: guessWordMock
+    };   
+    wrapper =  shallow(<UnconnectedInput {...props}/>);
+
+    //add value to input box
+    wrapper.instance().inputBox.current = { value: guessedWord};
+
+    //simulate click
+    const buttonComponent = findByTestAttr(wrapper, 'submit-box');
+     buttonComponent.simulate('click',{ preventDefault(){} });
+   });
+
+   test('Checks if action creator runs on submit click', () => {
+        
+     const unconnectedInputCallCount = guessWordMock.mock.calls.length;
+       
+     expect(unconnectedInputCallCount).toBe(1);
+    });
+
+
+    test('Checks if action creator runs with correct args', () => {
+        const guessWordArg = guessWordMock.mock.calls[0][0];
+        expect(guessWordArg).toBe(guessedWord);
+    });
+
 });
